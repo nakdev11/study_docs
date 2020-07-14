@@ -133,6 +133,13 @@
         - 分散システムのアーキテクチャ
         - 外部システムにアクセスし、必要な情報を取得するような仕組みで利用される
         - 取得する情報の形式はJSONが多い（今回はTEXTをレスポンスする）
+    
+    - コントローラークラスをコーディングする時のポイント
+        - @RestController
+            - レストコントローラーに付与するアノテーション
+        - @RequestMapping
+            - リクエストしてきたURLパスと紐付けるメソッドに付与するアノテーション（URLマッピング）
+            - このようなメソッドをリクエストハンドラという
 
 - ブラウザが、あるURLをリクエストする
     - http://localhost:8080 へGETでリクエスト
@@ -173,4 +180,58 @@
         ```
         Good Morning!!
         ```
+
+- パス変数を使ってみる （リスト3-9）
+    - URLのパス部分の一部を変数（パス変数）として利用する
+    - http://localhost:8080/100 の100の部分
+    - @PathVariableでメソッドの引数に受け取る
+
+
+- TEXTではなくJSONでレスポンスしてみる（リスト3-10）
+    - JSONとは
+    - JSONをレスポンスするには、メソッドの戻り値の型をクラスにする
+
+
+## ControllerとThymeleafを利用する（3.4）
+
+- テンプレート（View）を表示する
+
+    ![MVCアーキテクチャ概要図](MVC2.png)
+
+    - Controllerクラスを作る（リスト3-13）
+        - @Controller
+        - return "パス/HTMLファイル名（拡張子除く）"
+        - パスは、/resources/templatesからの相対パス
+    
+    - テンプレートファイルを作る（リスト3-14）
+            - /resources/templates配下に保存
+    
+    - http://localhost:8080 へアクセス
+    
+- テンプレートに値を表示する
+
+    ![MVCアーキテクチャ概要図](MVC3.png)
+
+    - リクエストURLのパスに入っている値をHTMLに表示してレスポンスする
+
+        - Controllerが、パス変数を受け取り、Modelに保存する
+
+        - Viewが、Modelから値を取得してHTMLを作る
+
+        - Controllerが、HTMLをレスポンスする
+    
+    - テンプレートを作る（リスト3-15）
+        - th:text="${hoge}"
+            - ModelにhogeというKeyで保存した値を表示する
+
+    - Controllerを作る（リスト3-16）
+        - model.addAttribute("hoge", 値)
+            - modelにhogeというKeyで値を保存する
+
+    - Modelって何？
+        - ControllerとView間で値をやり取りするためのクラス
+        - Springが予め準備しているクラス
+        - Key:Value形式で値を保存出来る
+        - 値を保存する時、addAttributeメソッドを使う
+        - htmlに表示する時は、th:text="${hoge}}"と書く
 
