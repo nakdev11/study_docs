@@ -184,6 +184,7 @@
     - JSONとは
       - データ定義言語
       - {"id": 1, "name": "yamada", "age": 28, "Birthplace": "Tokyo"}
+      - Key：Value形式、全体を波括弧で括る、ダブルクオーテーションで括る、数値は括らない
       - 詳しくは → [JSON入門](http://www.tohoho-web.com/ex/json.html){:target="_blank"}
 
 ## ControllerとThymeleafを利用する（3.4）
@@ -195,14 +196,17 @@
     - Controllerクラスを作る（リスト3-13）
         - @Controller
         - return "パス/HTMLファイル名（拡張子除く）"
-        - パスは、/resources/templatesからの相対パス
+        - パスは、src/main/resources/templates からの相対パス
     
     - テンプレートファイルを作る（リスト3-14）
             - /resources/templates配下に保存
     
     - http://localhost:8080 へアクセス
     
-    
+    - （お題）templates配下にフォルダを作って、そこに新たなHTMLを作り表示してみる
+      - src/resources/templates/hoge/fuga.html
+
+
 - テンプレートに値を表示する
 
     ![MVCアーキテクチャ概要図](MVC3.png)
@@ -228,5 +232,30 @@
         - Springが予め準備しているクラス
         - Key:Value形式で値を保存出来る
         - 値を保存する時、addAttributeメソッドを使う
-        - htmlに表示する時は、th:text="${hoge}}"と書く
+        - htmlに表示する時は、th:text="${hoge}"と書く
 
+## おまけ（時間があれば）
+    - 勉強会レジュメ作成の流れ
+      - 環境準備
+        - vscodeインストール
+        - vscodeにDraw.io Integrationを入れる
+      - レジュメ作成
+        - markdownでレジュメを書く
+        - Draw.ioで図表を書く
+      - レジュメをGitHubへアップして、インターネットに公開する
+        - GitHubに勉強会用のリポジトリを作成
+        - ローカルのレジュメをGitHubへ登録
+      - GitHub Pagesの設定
+      - インターネットに公開した自分のレジュメを見てみる
+      - 参照 → [GitHubを使ってMarkdown文書を５ステップでホームページとして公開する方法](https://qiita.com/MahoTakara/items/3800e9dc83b530d0a050){:target="_blank"}
+
+## 次回、発表したい人、募集中🎶
+    - 勉強会は発表する人が一番勉強出来ます！
+    - 勉強会に向けてモチベーションが上がります！
+    - P150〜159まで、3章コンプリートしたい。
+    - 何人かで分担するといいかも。
+      - ModelAndViewクラスを使ってみる　p150〜151
+        - ModelとModelAndViewの違いを抑えたい
+      - フォームを利用する　p152〜153
+      - その他のフォームコントロール　
+    - 私が作ったレジュメをgithubで協同編集しますか？
