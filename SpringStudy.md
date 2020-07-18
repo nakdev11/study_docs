@@ -180,13 +180,11 @@
 
 
 - TEXTではなくJSONでレスポンスしてみる（リスト3-10）
-    - 今まで、リクエストハンドラの戻り値をStringにしていた
-    - 今回は、リクエストハンドラの戻り値をClassにする
-    - 戻り値をClassにすると、Springが勝手にJSONに変換して、クライアントに返してくれる
+    - リクエストハンドラの戻り値をClassにすると、Springが勝手にJSONに変換して、クライアントに返してくれる
     - JSONとは
       - データ定義言語
       - {"id": 1, "name": "yamada", "age": 28, "Birthplace": "Tokyo"}
-      - [JSON入門](http://www.tohoho-web.com/ex/json.html){:target="_blank"}
+      - 詳しくは → [JSON入門](http://www.tohoho-web.com/ex/json.html){:target="_blank"}
 
 ## ControllerとThymeleafを利用する（3.4）
 
