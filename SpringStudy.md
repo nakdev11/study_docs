@@ -185,6 +185,7 @@
       - データ定義言語
       - {"id": 1, "name": "yamada", "age": 28, "Birthplace": "Tokyo"}
       - Key：Value形式、全体を波括弧で括る、ダブルクオーテーションで括る、数値は括らない
+      - プログラムが扱いやすいデータ形式なので、APIの戻り値はJSONのことが多い
       - 詳しくは → [JSON入門](http://www.tohoho-web.com/ex/json.html){:target="_blank"}
 
 ## ControllerとThymeleafを利用する（3.4）
@@ -250,6 +251,15 @@
       - インターネットに公開した自分のレジュメを見てみる
     - 参照 → [GitHubを使ってMarkdown文書を５ステップでホームページとして公開する方法](https://qiita.com/MahoTakara/items/3800e9dc83b530d0a050){:target="_blank"}
 
+## lombokのせいで実行できず・・・
+
+    - あああ
+    - いいい
+    - ううう
+  
+  
+
+
 ## 次回、発表したい人、募集中🎶
 
   - 勉強会は発表する人が一番勉強出来ます！
@@ -261,3 +271,4 @@
     - フォームを利用する　p152〜153
     - その他のフォームコントロール　
   - 私が作ったレジュメをgithubで協同編集しますか？
+
