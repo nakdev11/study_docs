@@ -71,7 +71,7 @@
 
 - Spring FrameworkによるWebアプリケーション開発
     - MVCアーキテクチャ
-        - プログラムの整理整頓
+        - MVCアーキテクチャとは、**プログラムの整理整頓** のこと
             - Controllerは、プログラム全体を制御する役目のプログラム
             - Modelは、業務ロジック、データ管理をつかさどるプログラム
             - Viewは、画面の表示を扱う役目のプログラム
@@ -212,30 +212,46 @@
 
     ![MVCアーキテクチャ概要図](MVC3.png)
 
-    - リクエストURLのパスに入っている値をHTMLに表示してレスポンスする
-
-        - Controllerが、パス変数を受け取り、Modelに保存する
-
-        - Viewが、Modelから値を取得してHTMLを作る
-
-        - Controllerが、HTMLをレスポンスする
+    - Controllerでmodelに値を登録し、その値をHTML上に埋め込んで表示する
+      - Controllerで、modelに任意のKey、Valueを登録する
+      - Viewで、Modelから値を取得してHTMLを作る
+      - Controllerで、HTMLをレスポンスする
     
     - テンプレートを作る（リスト3-15）
+      - <html>にThymeleafを使うための属性を追記
+      - HTML上で登録した値を表示したい箇所に、Thymeleafの独自属性であるth:textを追記
         - th:text="${hoge}"
             - ModelにhogeというKeyで保存した値を表示する
+  
+    - Modelって何？
+        - ControllerとView間で値をやり取りするためのオブジェクト
+        - Springが予め準備しているMapオブジェクト
+        - Mapオブジェクトとは、Key:Value形式で値を保存出来るオブジェクトのこと
+        - 値を保存する時、addAttributeメソッドを使う
+        - htmlに表示する時は、th:text="${hoge}"と書く
 
     - Controllerを作る（リスト3-16）
         - model.addAttribute("hoge", 値)
             - modelにhogeというKeyで値を保存する
 
-    - Modelって何？
-        - ControllerとView間で値をやり取りするためのクラス
-        - Springが予め準備しているクラス
-        - Key:Value形式で値を保存出来る
-        - 値を保存する時、addAttributeメソッドを使う
-        - htmlに表示する時は、th:text="${hoge}"と書く
+    - クライアントから送信された値をテンプレートに表示する
 
-## おまけ（時間があれば）
+      - リクエストURLのパスに入っている値をHTMLに表示してレスポンスする
+          - Controllerで、パス変数を受け取り、Modelに保存する
+          - Viewで、Modelから値を取得してHTMLを作る
+          - Controllerで、HTMLをレスポンスする 
+    
+      - POSTされた値をHTMLに表示してレスポンスする
+        - HTMLにFORMタグを追記し、POSTで値を送信する
+        - Controllerで、POSTされた値を受け取り、modelに登録する
+        - modelに登録した値を、HTMLに表示する
+
+        ![POSTされた値をHTMLに表示](seq_form.drawio.svg)
+
+    - ModelAndViewって何？
+
+
+## 参考
 
 - 勉強会レジュメ作成の流れ
     - 環境準備
@@ -251,24 +267,9 @@
       - インターネットに公開した自分のレジュメを見てみる
     - 参照 → [GitHubを使ってMarkdown文書を５ステップでホームページとして公開する方法](https://qiita.com/MahoTakara/items/3800e9dc83b530d0a050){:target="_blank"}
 
-## lombokのせいで実行できず・・・
-
-    - あああ
-    - いいい
-    - ううう
-  
-  
-
 
 ## 次回、発表したい人、募集中🎶
 
-  - 勉強会は発表する人が一番勉強出来ます！
-  - 勉強会に向けてモチベーションが上がります！
-  - P150〜159まで、3章コンプリートしたい。
-  - 何人かで分担するといいかも。
-    - ModelAndViewクラスを使ってみる　p150〜151
-      - ModelとModelAndViewの違いを抑えたい
-    - フォームを利用する　p152〜153
-    - その他のフォームコントロール　
-  - 私が作ったレジュメをgithubで協同編集しますか？
-
+  - 勉強会は発表する人が一番勉強出来ます♪
+  - 勉強会に向けてモチベーションが上がります♪
+  - プレゼンテーションの練習にもなります♪
