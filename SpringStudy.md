@@ -236,17 +236,26 @@
 
     - クライアントから送信された値をテンプレートに表示する
 
-      - リクエストURLのパスに入っている値をHTMLに表示してレスポンスする
-          - Controllerで、パス変数を受け取り、Modelに保存する
-          - Viewで、Modelから値を取得してHTMLを作る
-          - Controllerで、HTMLをレスポンスする 
-    
-      - POSTされた値をHTMLに表示してレスポンスする
-        - HTMLにFORMタグを追記し、POSTで値を送信する
-        - Controllerで、POSTされた値を受け取り、modelに登録する
-        - modelに登録した値を、HTMLに表示する
+        - リクエストURLのパスに入っている値をHTMLに表示してレスポンスする
+            - Controllerで、パス変数を受け取り、Modelに保存する
+            - Viewで、Modelから値を取得してHTMLを作る
+            - Controllerで、HTMLをレスポンスする 
+      
+        - POSTされた値をHTMLに表示してレスポンスする
+          - HTMLにFORMタグを追記し、POSTで値を送信する
+          - Controllerで、POSTされた値を受け取り、modelに登録する
+          - modelに登録した値を、HTMLに表示する
 
         ![POSTされた値をHTMLに表示](seq_form.drawio.svg)
+
+        - 次に、HTTPのメソッドをPOSTからGETに変えてみるとどうなる？
+            - [URLとは](https://www.cman.jp/network/term/url/){:target="_blank"}
+              - スキーム
+              - ホスト
+              - ドメイン
+              - ポート番号
+              - パス
+              - クエリパラメータ
 
     - ModelAndViewって何？
 
