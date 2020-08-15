@@ -271,6 +271,7 @@
           - Modelクラスは、テンプレート名などの情報を持ってないので、テンプレート名を戻り値としている
 
     - Modelで実装したものをModelAndViewで実装してみる
+      - 飛ばす
 
 ## テンプレートエンジンを使いこなす（４章）
 
@@ -312,7 +313,8 @@
 
 ### 全体概要
 
-![](MVC4.drawio.svg)
+ ![全体概要](MVC4.png)
+
 
 ### DBの準備
 - MYSQLをインストール
@@ -340,7 +342,8 @@ spring.datasource.password=
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 ```
 
-[applications.propertiesの書き方参照](https://qiita.com/t-iguchi/items/685c0a1bb9b0e8ec68d2){:target="_blank"}
+  - [applications.propertiesの書き方参照](https://qiita.com/t-iguchi/items/685c0a1bb9b0e8ec68d2){:target="_blank"}
+  - DBのユーザーはrootのままは良くない。アプリ用にユーザー作るのがふつう。
 
 ### 実装
 
@@ -368,7 +371,9 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
   または、List<Peron> list = repository.findAll();
   ```
     - 継承元であるJpaRepositoryに用意されているメソッド
-    - select * from Personをやって、結果をlistに入れている
+    - Repositoryにメソッド書かなくても動く
+    - findALL()は、select * from TBLなので、テーブル名さえわかればSQLを作れるからだろう
+    - 今回の場合、select * from personを実行して、listに入れている
 
 - テンプレート準備して画面に出力
   - 単純にコレクションをそのまま出力
