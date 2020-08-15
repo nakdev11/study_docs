@@ -198,7 +198,7 @@
         - @Controller
         - return "パス/HTMLファイル名（拡張子除く）"
         - パスは、src/main/resources/templates からの相対パス
-    
+
     - テンプレートファイルを作る（リスト3-14）
             - /resources/templates配下に保存
     
@@ -213,16 +213,7 @@
     ![MVCアーキテクチャ概要図](MVC3.png)
 
     - Controllerでmodelに値を登録し、その値をHTML上に埋め込んで表示する
-      - Controllerで、modelに任意のKey、Valueを登録する
-      - Viewで、Modelから値を取得してHTMLを作る
-      - Controllerで、HTMLをレスポンスする
     
-    - テンプレートを作る（リスト3-15）
-      - <html>にThymeleafを使うための属性を追記
-      - HTML上で登録した値を表示したい箇所に、Thymeleafの独自属性であるth:textを追記
-        - th:text="${hoge}"
-            - ModelにhogeというKeyで保存した値を表示する
-  
     - Modelって何？
         - ControllerとView間で値をやり取りするためのオブジェクト
         - Springが予め準備しているMapオブジェクト
@@ -230,7 +221,14 @@
         - 値を保存する時、addAttributeメソッドを使う
         - htmlに表示する時は、th:text="${hoge}"と書く
 
-    - Controllerを作る（リスト3-16）
+    - テンプレートを作る（リスト3-15）
+      - htmlタグににThymeleafを使うための属性を追記
+        - xmlns:th="http://www.thymeleaf.org"
+      - HTML上で、modelに登録した値を表示したい箇所に、Thymeleafの独自属性であるth:textを追記
+        - th:text="${hoge}"
+            - ModelにhogeというKeyで保存した値を表示する
+  
+      - Controllerを作る（リスト3-16）
         - model.addAttribute("hoge", 値)
             - modelにhogeというKeyで値を保存する
 
@@ -246,6 +244,11 @@
           - Controllerで、POSTされた値を受け取り、modelに登録する
           - modelに登録した値を、HTMLに表示する
 
+        - これまで、@RequestMappingを使っていたが、今回、@GetMappingと@PostMappingを使う
+          - なぜなら、文字数が少なくて楽だから
+          - @RequestMapping(value="/", method=RequestMethod.GET)は、@GetMapping("/")と書ける
+          - このアノテーションは、Spring Frameworkの4.3から追加された
+
         ![POSTされた値をHTMLに表示](seq_form.drawio.svg)
 
         - 次に、HTTPのメソッドをPOSTからGETに変えてみるとどうなる？
@@ -257,8 +260,120 @@
               - パス
               - クエリパラメータ
 
-    - ModelAndViewって何？
+    - ModelAndViewって何？（Modelとの違いに着目）
+        - ControllerとView間で値をやり取りするためのオブジェクト
+        - Springが予め準備しているMapオブジェクト
+        - Mapオブジェクトとは、Key:Value形式で値を保存出来るオブジェクトのこと
+        - 値を保存する時、addObjectメソッドを使う（＊Modelと違う）
+        - htmlに表示する時は、th:text="${hoge}"と書く
+        - Controllerの戻り値は、ModelAndViewクラスのインスタンスとする（＊Modelと違う）
+          - なぜなら、ModelAndViewクラスは、利用するテンプレート名などの情報を持っているから
+          - Modelクラスは、テンプレート名などの情報を持ってないので、テンプレート名を戻り値としている
 
+    - Modelで実装したものをModelAndViewで実装してみる
+
+## テンプレートエンジンを使いこなす（４章）
+
+- Thymeleafの説明の内、大切と思った点をピックアップする（サラッと読んで、使うときに読み返す）
+  - Thymeleafとは、テンプレートエンジン
+    - テンプレートエンジンの基本は、テンプレートの中にコントローラー側で用意した値をはめ込んでレンダリングすること
+    - Thymeleafは、値をすべてth:〜という属性の形で用意する
+    - 属性の形で用意しているため、Thymeleafが機能していなくともページの表示に影響与えずに済む。
+    - つまり、デザインとロジックを分離している。これが利点。
+  - 変数式
+    - ${}
+    - 値を表示する
+  - メッセージ式
+    - #{}
+    - src/main/resources/messages.propertiesに定義したメッセージを表示する
+  - th:text="{person.name}" 
+  - 選択オブジェクトへの変数式
+    - th:objectを使ってオブジェクトを選択すると、そのタグの内部でプロパティ名だけで値を指定できる
+      - th:object="${person}"
+      - th:text="*{name}"
+      - th:text="*{age}"
+  - th:if="条件式"
+    - 条件式がtrueの時、このタグと内部タグを表示する
+  - th:unless="条件式"
+    - 条件式がfalseの時、このタグと内部タグを表示する
+  - th:each="変数:${コレクション}"
+    - th:each="person:${persons}
+  - __${hoge}__
+    - プリプロセッシング
+    - 変数式の前後にアンダーバーを２つずつ付けて記述
+    - 変数式が先に評価される
+  - テンプレートフラグメント
+    - テンプレート側
+      - th:fragment="フラグメント名"
+    - 組み込む側
+      - th:include="テンプレート名::フラグメント名"
+
+## モデルとデータベース（５章）
+
+### 全体概要
+
+![](MVC4.drawio.svg)
+
+### DBの準備
+- MYSQLをインストール
+- mydbというDBを作成
+- PersonというTableを作成
+- テストデータを３件Insert
+  
+### プロジェクトの準備
+- pom.xmlにJPAとMySqlを追加
+```
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+<dependency>
+	<groupId>mysql</groupId>
+	<artifactId>mysql-connector-java</artifactId>
+</dependency>
+```
+- applications.propertiesにDB接続設定を追加
+```
+spring.datasource.url=jdbc:mysql://localhost:3306/mydb
+spring.datasource.username=root
+spring.datasource.password=
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+```
+
+[applications.propertiesの書き方参照](https://qiita.com/t-iguchi/items/685c0a1bb9b0e8ec68d2){:target="_blank"}
+
+### 実装
+
+- Entityクラスの作成
+  - データベースのデータをJava内でオブジェクトとして扱えるようにするためのクラス
+  - 非常にシンプルなPOJO
+  - テーブルに対応するフィールドとアクセサ（ゲッター／セッター）を書く
+  - @Entityアノテーションをつける
+
+- Repositoryクラスの作成
+  - データベースにアクセスするためのメソッドを提供するクラス
+  - インターフェースとして用意する
+  - リポジトリは汎用的なデータベースアクセス処理を自動生成してくれる
+  - @Repositoryアノテーションつける
+  - JpaRepositoryを継承＜テーブル名、主キーの型＞
+
+- Contorollerの作成（Repositoryを使う）
+  - @Autowired
+    - repositoryをContorollerのフィールドに関連付ける
+    - これでrepositoryのインスタンスが自動的にrepositoryフィールドに設定される
+    - p229の説明参照
+  - リポジトリで取得する方法
+  ```
+  Iterable<Person> list = repository.findAll();
+  または、List<Peron> list = repository.findAll();
+  ```
+    - 継承元であるJpaRepositoryに用意されているメソッド
+    - select * from Personをやって、結果をlistに入れている
+
+- テンプレート準備して画面に出力
+  - 単純にコレクションをそのまま出力
+  - PersonのtoString()をOverrideして出力 
+  - テンプレートを修正して表形式で出力(th:eachを使う）
 
 ## 参考
 
