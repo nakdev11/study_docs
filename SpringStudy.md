@@ -324,6 +324,7 @@
   
 ### プロジェクトの準備
 - pom.xmlにJPAとMySqlを追加
+
 ```
 <dependency>
 	<groupId>org.springframework.boot</groupId>
@@ -334,7 +335,9 @@
 	<artifactId>mysql-connector-java</artifactId>
 </dependency>
 ```
+
 - applications.propertiesにDB接続設定を追加
+
 ```
 spring.datasource.url=jdbc:mysql://localhost:3306/mydb
 spring.datasource.username=root
@@ -366,10 +369,12 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
     - これでrepositoryのインスタンスが自動的にrepositoryフィールドに設定される
     - p229の説明参照
   - リポジトリで取得する方法
+
   ```
   Iterable<Person> list = repository.findAll();
   または、List<Peron> list = repository.findAll();
   ```
+
     - 継承元であるJpaRepositoryに用意されているメソッド
     - Repositoryにメソッド書かなくても動く
     - findALL()は、select * from TBLなので、テーブル名さえわかればSQLを作れるからだろう
