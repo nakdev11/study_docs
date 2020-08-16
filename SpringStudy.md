@@ -355,8 +355,7 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
   - 非常にシンプルなPOJO
   - テーブルに対応するフィールドとアクセサ（ゲッター／セッター）を書く
   - @Entityアノテーションをつける
-  - @GeneratedValueについて、参考になった記事
-    - https://qiita.com/KevinFQ/items/a6d92ec7b32911e50ffe
+  - [@GeneratedValueについて、参考になった記事](https://qiita.com/KevinFQ/items/a6d92ec7b32911e50ffe){:target="_blank"}
 
 - Repositoryクラスの作成
   - データベースにアクセスするためのメソッドを提供するクラス
