@@ -391,7 +391,7 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
     - PersonRepositoryにfindById()を追加
     - HelloContorollerからfindById()を使う
   - 入力欄に何も入力しないで検索した時、全件検索とする
-    - （対応案）@RequestParamaのdefaultValueを使う
+    - （対応案）@RequestParamのdefaultValueを使う
   - その他考慮すること
     - ID入力して対象データ無かった時、どうする？
     - IDに文字列とか空文字入れた時、どうする？
