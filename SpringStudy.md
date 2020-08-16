@@ -355,6 +355,8 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
   - 非常にシンプルなPOJO
   - テーブルに対応するフィールドとアクセサ（ゲッター／セッター）を書く
   - @Entityアノテーションをつける
+  - @GeneratedValueについて、参考になった記事
+    - https://qiita.com/KevinFQ/items/a6d92ec7b32911e50ffe
 
 - Repositoryクラスの作成
   - データベースにアクセスするためのメソッドを提供するクラス
@@ -381,9 +383,19 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
     - 今回の場合、select * from personを実行して、listに入れている
 
 - テンプレート準備して画面に出力
-  - 単純にコレクションをそのまま出力
-  - PersonのtoString()をOverrideして出力 
-  - テンプレートを修正して表形式で出力(th:eachを使う）
+  - テーブルのレコード全件表示する
+    - 単純にコレクションをそのまま出力
+    - PersonのtoString()をOverrideして出力 
+    - テンプレートを修正して表形式で出力(th:eachを使う）
+  - テーブルのレコードをidで抽出して表示する
+    - index.htmlに入力欄と検索ボタンを追加
+    - PersonRepositoryにfindById()を追加
+    - HelloContorollerからfindById()を使う
+  - 入力欄に何も入力しないで検索した時、全件検索とする
+    - （対応案）@RequestParamaのdefaultValueを使う
+  - その他考慮すること
+    - ID入力して対象データ無かった時、どうする？
+    - IDに文字列とか空文字入れた時、どうする？
 
 ## 参考
 
