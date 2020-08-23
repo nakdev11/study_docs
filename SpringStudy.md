@@ -411,7 +411,6 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
         - 対象データが無かった時、どうする？
       - 全件検索方法
         - 検索キーidはint型、nullを扱えない。どうする？
-        - Integer型が使えそう
       - 予期せぬ入力
         - バリデーション使う
         - エラー内容を画面に表示する
