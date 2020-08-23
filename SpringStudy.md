@@ -387,14 +387,34 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
     - PersonのtoString()をOverrideして出力 
     - テンプレートを修正して表形式で出力(th:eachを使う）
   - テーブルのレコードをidで抽出して表示する
+
+     ![画面遷移図](画面遷移図.drawio.svg)
+
     - index.htmlに入力欄と検索ボタンを追加
     - PersonRepositoryにfindById()を追加
     - HelloContorollerからfindById()を使う
   - 入力欄に何も入力しないで検索した時、全件検索とする
-    - （対応案）@RequestParamのdefaultValueを使う
-  - その他考慮すること
-    - ID入力して対象データ無かった時、どうする？
-    - IDに文字列とか空文字入れた時、どうする？
+    - 対応案１
+      - @RequestParamを使う
+      - ID入力して検索
+        - 対象データが無かった時、どうする？
+      - 全件検索方法
+        - 検索キーidはint型、nullを扱えない。どうする？
+        - Integer型が使えそう
+      - 予期せぬ入力
+        - 文字を入力された時、どうする？
+        - スペース入力された時、どうする？
+    - 対応案２
+      - formを使う
+        - formに入力したデータをform用のクラスへバインディング
+      - ID入力して検索
+        - 対象データが無かった時、どうする？
+      - 全件検索方法
+        - 検索キーidはint型、nullを扱えない。どうする？
+        - Integer型が使えそう
+      - 予期せぬ入力
+        - バリデーション使う
+        - エラー内容を画面に表示する
 
 ## 参考
 
