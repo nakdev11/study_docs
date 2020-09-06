@@ -420,47 +420,65 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
         - エラー内容を画面に表示する。
           - th:each="error : ${#fields.detailedErrors()}を実装した。
 
-- 前回は検索Rを実装した。今回は登録C、編集U、削除Dを実装する。
+- 前回は検索Rを実装した。今回は登録C、更新U、削除Dを実装する。
 
 ![画面遷移図2](画面遷移図2.png)
 
   - 作成する資材
     1. index.html ※localhost:8080/
-    2. register.html ※localhost:8080/register
-    3. update.html ※localhost:8080/update
-    4. delete.html ※localhost:8080/delete
-    5. HelloController.java　※リクエストハンドラ
-    6. Person.java ※entity（DBの値を入れるためのクラス）
-    7. PersonRepository.java ※Dao（DB操作するためのクラス）
-    8. SearchForm.java ※検索画面用のフォーム
-    9. RegisterForm．java ※登録画面用のフォーム
-    10. UpdateForm.java ※更新画面用のフォーム
+    2. SearchForm.java ※検索画面用の入力フォーム 
+    3. HelloController.java　※リクエストハンドラ　※画面毎に分けた方がいいかも
+    4. Person.java ※entity（DBの値を入れるためのクラス）
+    5. PersonRepository.java ※Dao（DB操作するためのクラス）
+    6. register.html ※localhost:8080/register
+    7. RegisterForm.java ※登録画面用の入力フォーム
+    8. update.html ※localhost:8080/update
+    9. UpdateForm.java ※更新画面用の入力フォーム
+    10. delete.html ※localhost:8080/delete
+    11. DeleteForm.java ※削除画面用の入力フォーム
   
   - 登録画面 実装手順
-    - register.htmlを作る
+    - index.htmlを修正する
+      - 登録画面のリンクを追加
     - RegisterForm.javaを作る
     - HelloController.javaを修正する
       - /registerへのGet処理を追加
         - 登録画面を初期表示する
       - /registerへのPost処理を追加
         - バリデーションOKなら、RegisterFormからPersonへ入力値を詰めて、DBへInsertする。
+        - IDはAuto Incrementしてるので入力させない。
         - バリデーションNGなら、/registerへ戻す。
   - 更新画面
+    - index.htmlを修正する
+      - 更新画面のリンクを追加
+      - 変数の値をクエリパラメータにする場合
+        - (パラメータ名=${変数名})とする。
+        - th:href="@{/update(id="{person.id})}"
+      - 変数の値をURLの一部として組み立てる場合
+        - プレースホルダを{プレースホルダ名}で定義し、プレースホルダ名=${変数名}とする。
+        - th:href="@{/update/{id}(id=${person.id})}"
     - update.htmlを作る
+      - idはTBLのPrimaryKeyなので更新不可とする。
+      - inputタグの属性でreadonlyかdisabledが使えそう。
+        - disabledは値の引き継ぎが出来ない。
     - UpdateForm.javaを作る
     - HelloController.javaを修正する
       - /updateへのGet処理を追加
         - 更新画面を初期表示する
+        - リクエストパラメータで取得したDBの値をupdateFormへ詰めてから画面表示する。
       - /updateへのPost処理を追加
         - バリデーションOKなら、UpdateFormからPersonへ入力値を詰めて、DBをUpdateする。
         - バリデーションNGなら、/updateへ戻す。
   - 削除画面
     - delete.htmlを作る
+      - idはPostしたいのでinputタグで更新不可にする。
+      - その他の項目は表示するだけで良い。
+    - deleteForm.javaを作る
     - HelloController.javaを修正する
       - /deleteへのGet処理を追加
+        - リクエストパラメータで取得したDBの値をdeleteFormへ詰めてから、画面表示する。
       - /deleteへのPost処理を追加
-        - PathVariableの値（ID）をKeyにDBの該当レコードを削除する。
-
+        - deleteFormのIDをKeyにrepository.deleteById()を使って、対象データを削除する。
 
 
 ## 参考
