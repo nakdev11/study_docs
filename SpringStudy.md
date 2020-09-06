@@ -440,6 +440,7 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
   - 登録画面 実装手順
     - index.htmlを修正する
       - 登録画面のリンクを追加
+    - register.htmlを作る
     - RegisterForm.javaを作る
     - HelloController.javaを修正する
       - /registerへのGet処理を追加
