@@ -400,9 +400,12 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
         - 対象データが無かった時、どうする？
       - 全件検索方法
         - 検索キーidはint型、nullを扱えない。どうする？
+          - Integer型を使う。
       - 予期せぬ入力
         - 文字を入力された時、どうする？
         - スペース入力された時、どうする？
+          - 1つずつ入力チェックするの辛い。バリデーションを使いたい。
+ 
     - 対応案２
       - formを使う
         - formに入力したデータをform用のクラスへバインディング
@@ -410,9 +413,55 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
         - 対象データが無かった時、どうする？
       - 全件検索方法
         - 検索キーidはint型、nullを扱えない。どうする？
+          - Integer型を使う。
       - 予期せぬ入力
-        - バリデーション使う
-        - エラー内容を画面に表示する
+        - バリデーション使う。
+          - formクラスを用意して、バリデーション用のアノテーションを実装した。
+        - エラー内容を画面に表示する。
+          - th:each="error : ${#fields.detailedErrors()}を実装した。
+
+- 前回は検索Rを実装した。今回は登録C、編集U、削除Dを実装する。
+
+![画面遷移図2](画面遷移図2.drawio.svg)
+
+  - 作成する資材
+    1. index.html ※localhost:8080/
+    2. register.html ※localhost:8080/register
+    3. update.html ※localhost:8080/update
+    4. delete.html ※localhost:8080/delete
+    5. HelloController.java　※リクエストハンドラ
+    6. Person.java ※entity（DBの値を入れるためのクラス）
+    7. PersonRepository.java ※Dao（DB操作するためのクラス）
+    8. SearchForm.java ※検索画面用のフォーム
+    9. RegisterForm．java ※登録画面用のフォーム
+    10. UpdateForm.java ※更新画面用のフォーム
+  
+  - 登録画面 実装手順
+    - register.htmlを作る
+    - RegisterForm.javaを作る
+    - HelloController.javaを修正する
+      - /registerへのGet処理を追加
+        - 登録画面を初期表示する
+      - /registerへのPost処理を追加
+        - バリデーションOKなら、RegisterFormからPersonへ入力値を詰めて、DBへInsertする。
+        - バリデーションNGなら、/registerへ戻す。
+  - 更新画面
+    - update.htmlを作る
+    - UpdateForm.javaを作る
+    - HelloController.javaを修正する
+      - /updateへのGet処理を追加
+        - 更新画面を初期表示する
+      - /updateへのPost処理を追加
+        - バリデーションOKなら、UpdateFormからPersonへ入力値を詰めて、DBをUpdateする。
+        - バリデーションNGなら、/updateへ戻す。
+  - 削除画面
+    - delete.htmlを作る
+    - HelloController.javaを修正する
+      - /deleteへのGet処理を追加
+      - /deleteへのPost処理を追加
+        - PathVariableの値（ID）をKeyにDBの該当レコードを削除する。
+
+
 
 ## 参考
 
