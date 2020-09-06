@@ -422,7 +422,7 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
 - 前回は検索Rを実装した。今回は登録C、更新U、削除Dを実装する。
 
-![画面遷移図2](画面遷移図2.png)
+![画面遷移図2](画面遷移図2.drawio.svg)
 
   - 作成する資材
     1. index.html ※localhost:8080/
