@@ -481,9 +481,10 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
       - /deleteへのPost処理を追加
         - deleteFormのIDをKeyにrepository.deleteById()を使って、対象データを削除する。
 
-### Spring + MyBatis + MySQL
+### Spring + MyBatis + MySQL で実装
 
 Spring+JPA+MySQLで実装したアプリをSpring+MyBatis+MySQLで実装する。
+以下２つの対応が必要
 - pom.xmlの修正
 - 各クラスなどの修正/追加
 
@@ -494,9 +495,9 @@ pom.xmlを修正
 
 ```
 <dependency>
-    <groupId>org.mybatis</groupId>
-    <artifactId>mybatis-spring</artifactId>
-    <version>2.0.3</version>
+    <groupId>org.mybatis.spring.boot</groupId>
+    <artifactId>mybatis-spring-boot-starter</artifactId>
+    <version>2.1.3</version>
 </dependency>
 ```
 
@@ -519,15 +520,18 @@ pom.xmlを修正
 | 13 | PersonMapper.xml  | 追加  | DAOメソッドとSQLの紐付けとSQL記述、JPAはSQLを自動生成するので不要だった |
 
 PersonRepository.javaを元にPersonMapper.javaを作成
-  - アノテーションやJpaクラス継承を削除
+  - JPA用のアノテーションを削除
+  - JpaRepositoryの継承を削除
+  - MyBatis用のアノテーションを追加 @Mapper
   - insertOne,selectOne,selectMany,updateOne,deleteOneメソッドを作る
 
 Person.javaを修正
-  - アノテーションを全て削除
+  - JPA用のアノテーションを全て削除
 
 HelloController.javaを修正
-  - ＠Autowiredする変数をrepositoryからpersonMapperへ修正
-  - repositoryのメソッドからpersonDaoのメソッドに修正
+  - ＠AutowiredするDAOを修正（PersonMapperへ）
+  - PersonMapperのメソッドに修正
+  - findByIDは複数件取得としていたが、selectOneは１件取得なので、引数と戻り値を修正
 
 PersonMapper.xmlを作成
   - javaとXMLの配置
@@ -557,6 +561,21 @@ PersonMapper.xmlを作成
     - parameterType属性は、メソッドの引数の型を設定
     - resultType属性は、メソッドの戻り値の型を設定
     - #{変数名}は、parameterTypeで指定したクラスのフィールド名を指定
+
+時間があれば
+もうひとつgradeテーブルを作って、Personテーブルとgradeと結合して、学年情報を表示する。
+例えば、７才ならば小１と表示する。
+
+- gradeテーブルを作成
+  - DDL
+    ```
+    create table grade (age INTEGER, grade VARCHAR(100), PRIMARY KEY(age));
+    ```
+  - DATAを登録
+    ```
+    insert into grade (age, grade) values (7, '小1');
+    ```
+
 
 
 ## 参考
