@@ -481,6 +481,83 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
       - /deleteへのPost処理を追加
         - deleteFormのIDをKeyにrepository.deleteById()を使って、対象データを削除する。
 
+### Spring + MyBatis + MySQL
+
+Spring+JPA+MySQLで実装したアプリをSpring+MyBatis+MySQLで実装する。
+- pom.xmlの修正
+- 各クラスなどの修正/追加
+
+pom.xmlを修正
+- jpaは不要なので削除する
+- maven repositoryより、Mybatis Spring Boot Starterの最新版を選ぶ
+- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter/2.1.3
+
+```
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis-spring</artifactId>
+    <version>2.0.3</version>
+</dependency>
+```
+
+資材一覧
+
+| # | 資材名 | 修正/追加 | 備考 |
+|--:|---|---|---|
+| 1 | index.html | - |  |
+| 2 | register.html | - |  |
+| 3 | update.html | - |  |
+| 4 | delete.html | - |  |
+| 5 | searchForm.java | - |  |
+| 6 | registerForm.java | - |  |
+| 7 | updateForm.java | - |  |
+| 8 | deleteForm.java | - |  |
+| 9 | HelloController.java | 修正 | リクエストハンドラ |
+| 10 | Person.java | 修正 | データを保管するクラス、DTO、Entity |
+| 11 | PersonRepository.java | 削除 | データアクセスするためのInterface(DAO)  |
+| 12 | PersonMapper.java  | 追加  | データアクセスするためのInterface(DAO) |
+| 13 | PersonMapper.xml  | 追加  | DAOメソッドとSQLの紐付けとSQL記述、JPAはSQLを自動生成するので不要だった |
+
+PersonRepository.javaを元にPersonMapper.javaを作成
+  - アノテーションやJpaクラス継承を削除
+  - insertOne,selectOne,selectMany,updateOne,deleteOneメソッドを作る
+
+Person.javaを修正
+  - アノテーションを全て削除
+
+HelloController.javaを修正
+  - ＠Autowiredする変数をrepositoryからpersonMapperへ修正
+  - repositoryのメソッドからpersonDaoのメソッドに修正
+
+PersonMapper.xmlを作成
+  - javaとXMLの配置
+    - src/main/java/com.example配下に、PersonMapper.javaを配置
+    - src/main/resources/com.example配下に、PersonMapper.xmlを配置
+    - 同じ階層構造に配置する
+  - ヘッダ部分
+    - お約束
+
+    ```
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    ```
+
+  - mapperタグ
+    - namespace属性は、パッケージを含めたjavaのクラス名を設定
+  - resultMapタグ
+    - type属性は、取得した値を保管するクラスを設定
+    - id属性は、DBのテーブル名を設定
+    - idタグは、主キーとなるDBのカラム名を設定
+    - column属性は、DBのカラム名を設定
+    - property属性は、取得した値を保管するクラスのフィールドを設定
+  - insert/selectタグ
+    - タグは、insert文ならinsert、update文ならupdateと設定
+    - id属性は、対応するメソッド名を設定
+    - parameterType属性は、メソッドの引数の型を設定
+    - resultType属性は、メソッドの戻り値の型を設定
+    - #{変数名}は、parameterTypeで指定したクラスのフィールド名を指定
+
 
 ## 参考
 
