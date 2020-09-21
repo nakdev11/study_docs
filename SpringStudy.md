@@ -597,18 +597,49 @@ PersonMapper.xmlを作成
 | 3 | 検索結果一覧画面 | search_results.xhtml |  |
 | 4 | リクエストハンドラ | SearchController.java |  |
 | 5 | 店舗検索サービス | ShopSearchService.java |  |
-| 6 | DTO 1階層目 | SearchResults.java | APIレスポンス1階層目を保存するクラス |
-| 7 | DTO 2階層目 | Rest.java | APIレスポンス2階層目を保存するクラス |
-| 8 | DTO 3階層目 | ImageUrl.java | APIレスポンス3階層目を保存するクラス |
+| 6 | DTO 1階層目 | SearchResultsDto.java | APIレスポンス1階層目を保存するクラス |
+| 7 | DTO 2階層目 | RestDto.java | APIレスポンス2階層目を保存するクラス |
+| 8 | DTO 3階層目 | ImageUrlDto.java | APIレスポンス3階層目を保存するクラス |
 
 ### 開発手順
 - ぐるなび WEB SERVICEの新規アカウントを発行し、アクセスキーを取得する
-- プロジェクトを作成する
-  - 必要なライブラリは・・・
+    - [https://api.gnavi.co.jp/api/](https://api.gnavi.co.jp/api/){:target="_blank"}
+- -プロジェクトを作成する
+  - 必要なライブラリ
+    - spring-boot-starter-web
+    - spring-boot-starter-thymeleaf
+    - jackson-databind
+      - Jacksonは、JSON形式のデータを処理するためのJavaライブラリ
+      - データバインディングは、アノテーションに基づいて、JSONとJavaオブジェクトをバインディングする
+- JSONをバインディングするためのJavaオブジェクト（DTO）を作成する
+  - １階層目　SearchResultDto.java
+  - ２階層目　RestDto.java
+  - ３階層目　ImageUrlDto.java
+  - API仕様とJSONを見ながら実装する
+  - JSONのKeyとJavaオブジェクトのフィールドを紐付けるために、@JsonPropertyを書く
+  - JSONの必要な項目だけJavaオブジェクトのフィールドにすれば良い
+  - JSONからJavaオブジェクトを自動生成する便利なサイトがある
+    - [https://quicktype.io/](https://quicktype.io/){:target="_blank"}
+- 店舗検索サービスを作成する
+  - ShopSearchService.java
+  - RestTemplateクラスを使う
+    - Spring Frameworkが提供するHTTPクライアント用のクラス
+    - RestTemplateのメソッドを呼び出すという１ステップの実装で、以下４つの処理を行う
+      - リクエストURIの組み立て
+      - HTTPリクエストの送信
+      - HTTPレスポンスの受信
+      - レスポンスボティをJavaオブジェクトへ変換
+    - 今回は、getForObjectメソッドを利用
+      - getForObject(APIのURI, レスポンスボディの変換先となるJavaクラス, URIテンプレートで指定した変数…)
+  - コントローラーを作成する
+    - ShopSearchController.java
 - 検索画面を作成する
+  - search.html
 - 検索結果一覧画面を作成する
-- 
-
+  - search_result.html
+- 時間があればやりたいこと
+  - 検索条件を増やす
+  - エラーハンドリング
 
 ## 参考
 
