@@ -3,6 +3,9 @@
 - SpringBoot2プログラミング入門という書籍をベースに勉強します。
 - 当資料見出しの（1.1）などの番号は、書籍の章を示しています。
 
+## 勉強会履歴
+- [2020.9.22 外部webapiを叩いてみる](#2020921-外部webapiを叩いてみる) 
+
 ## Spring Bootって何？（1.1）
 
 - JavaでWebアプリケーションを開発するためのフレームワーク
@@ -577,10 +580,10 @@ PersonMapper.xmlを作成
     ```
 
 
-## 2020.9.21 外部WebAPIを叩いてみる
+## 2020.9.22 外部WebAPIを叩いてみる
 
 ### 今回作る機能
-- 店舗名の一部を入力し検索ボタンを押下で、検索結果一覧を表示する
+- 店舗名の一部を入力し検索ボタンを押下で、検索結果を表示する
 - 店舗一覧には、店舗名、カテゴリ、住所、電話番号、店舗画像を表示する
 - ぐるなびのレストラン検索APIを利用する
 
@@ -592,11 +595,11 @@ PersonMapper.xmlを作成
 
 | # | 資材名 | ファイル名 | 備考 |
 |--:|---|---|---|
-| 1 | エントリポイント | ApiProject1Application.java |  |
+| 1 | エントリポイント | ApiProject1Application.java | プロジェクト作成時、自動生成される。 |
 | 2 | 検索画面 | search.html |  |
-| 3 | 検索結果一覧画面 | search_results.xhtml |  |
-| 4 | リクエストハンドラ | SearchController.java |  |
-| 5 | 店舗検索サービス | ShopSearchService.java |  |
+| 3 | 検索結果画面 | search_results.xhtml |  |
+| 4 | コントローラー | SearchController.java | リクエストハンドラ。リクエスト（HTTPメソッドとURLパスの組み合わせ）とJavaメソッドを紐付ける。 |
+| 5 | 店舗検索サービス | ShopSearchService.java | APIを呼び出す。 |
 | 6 | DTO 1階層目 | SearchResultsDto.java | APIレスポンス1階層目を保存するクラス |
 | 7 | DTO 2階層目 | RestDto.java | APIレスポンス2階層目を保存するクラス |
 | 8 | DTO 3階層目 | ImageUrlDto.java | APIレスポンス3階層目を保存するクラス |
@@ -635,9 +638,10 @@ PersonMapper.xmlを作成
     - ShopSearchController.java
 - 検索画面を作成する
   - search.html
-- 検索結果一覧画面を作成する
+- 検索結果画面を作成する
   - search_result.html
 - 時間があればやりたいこと
+  - 店舗画像を出す
   - 検索条件を増やす
   - エラーハンドリング
 
