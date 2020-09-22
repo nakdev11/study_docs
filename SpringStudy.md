@@ -595,12 +595,12 @@ PersonMapper.xmlを作成
 
 | # | 資材名 | ファイル名 | 備考 |
 |--:|---|---|---|
-| 1 | エントリポイント | ApiProject1Application.java | プロジェクト作成時、自動生成される。 |
+| 1 | エントリポイント | ApiProjectApplication.java | プロジェクト作成時、自動生成される。 |
 | 2 | 検索画面 | search.html |  |
-| 3 | 検索結果画面 | search_results.xhtml |  |
+| 3 | 検索結果画面 | search_result.xhtml |  |
 | 4 | コントローラー | SearchController.java | リクエストハンドラ。リクエスト（HTTPメソッドとURLパスの組み合わせ）とJavaメソッドを紐付ける。 |
-| 5 | 店舗検索サービス | ShopSearchService.java | APIを呼び出す。 |
-| 6 | DTO 1階層目 | SearchResultsDto.java | APIレスポンス1階層目を保存するクラス |
+| 5 | 店舗検索サービス | SearchService.java | APIを呼び出す。 |
+| 6 | DTO 1階層目 | SearchResultDto.java | APIレスポンス1階層目を保存するクラス |
 | 7 | DTO 2階層目 | RestDto.java | APIレスポンス2階層目を保存するクラス |
 | 8 | DTO 3階層目 | ImageUrlDto.java | APIレスポンス3階層目を保存するクラス |
 
@@ -613,7 +613,8 @@ PersonMapper.xmlを作成
     - spring-boot-starter-thymeleaf
     - jackson-databind
       - Jacksonは、JSON形式のデータを処理するためのJavaライブラリ
-      - データバインディングは、アノテーションに基づいて、JSONとJavaオブジェクトをバインディングする
+      - jackson-databindは、アノテーションに基づいて、JSONとJavaオブジェクトをバインディングする
+        - @JsonProperty("jsonのKey")
 - JSONをバインディングするためのJavaオブジェクト（DTO）を作成する
   - １階層目　SearchResultDto.java
   - ２階層目　RestDto.java
@@ -632,10 +633,15 @@ PersonMapper.xmlを作成
       - HTTPリクエストの送信
       - HTTPレスポンスの受信
       - レスポンスボティをJavaオブジェクトへ変換
-    - 今回は、getForObjectメソッドを利用
-      - getForObject(APIのURI, レスポンスボディの変換先となるJavaクラス, URIテンプレートで指定した変数…)
-  - コントローラーを作成する
-    - ShopSearchController.java
+    - 今回は、RestTemplateクラスのgetForObjectメソッドを利用
+      - getForObjectメソッド
+        - 第1引数　APIのURI
+        - 第2引数　レスポンスボディ（JSON）の変換先となるJavaクラス（今回の場合、SearchResultDto.class)
+        - 第3引数　URIテンプレートで指定した変数（{変数}と書く、複数指定可）
+- コントローラーを作成する
+  - SearchController.java
+  - SearchSearviceのメソッドでSearchResultDtoを取得する
+  - SearchResult.getRest()でレストラン情報のリストを取得し、modelに設定する
 - 検索画面を作成する
   - search.html
 - 検索結果画面を作成する
@@ -644,6 +650,7 @@ PersonMapper.xmlを作成
   - 店舗画像を出す
   - 検索条件を増やす
   - エラーハンドリング
+  - ページング
 
 ## 参考
 
